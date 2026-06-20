@@ -63,4 +63,18 @@ public class CategoryController {
     public ResponseEntity<CategoryResponse> setActive(@PathVariable Long id, @RequestParam boolean active) {
         return ResponseEntity.ok(updateCategoryUseCase.execute(id, new UpdateCategoryRequest(null, null, active)));
     }
+
+    @PatchMapping("/{id}/activar")
+    @PreAuthorize("hasAuthority('CATEGORY_WRITE')")
+    @Operation(summary = "Activar categoría")
+    public ResponseEntity<CategoryResponse> activate(@PathVariable Long id) {
+        return ResponseEntity.ok(updateCategoryUseCase.execute(id, new UpdateCategoryRequest(null, null, true)));
+    }
+
+    @PatchMapping("/{id}/inactivar")
+    @PreAuthorize("hasAuthority('CATEGORY_WRITE')")
+    @Operation(summary = "Inactivar categoría")
+    public ResponseEntity<CategoryResponse> deactivate(@PathVariable Long id) {
+        return ResponseEntity.ok(updateCategoryUseCase.execute(id, new UpdateCategoryRequest(null, null, false)));
+    }
 }

@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
-import java.util.Set;
 
 @Component
 @ConditionalOnProperty(name = "app.local.bootstrap-enabled", havingValue = "true", matchIfMissing = true)
@@ -37,22 +36,20 @@ public class LocalDataInitializer implements ApplicationRunner {
     @Override
     @Transactional
     public void run(ApplicationArguments args) {
+        if (userJpaRepository.findByUsername(adminUsername).isPresent()) {
+            return;
+        }
+
         RoleJpaEntity adminRole = roleJpaRepository.findByName("ADMIN")
                 .orElseThrow(() -> new IllegalStateException("El rol ADMIN debe existir antes de crear el usuario local"));
 
-        UserJpaEntity admin = userJpaRepository.findByUsername(adminUsername)
-                .orElseGet(() -> UserJpaEntity.builder()
-                        .username(adminUsername)
-                        .build());
-
-        admin.setEmail(adminEmail);
-        admin.setPasswordHash(passwordEncoder.encode(adminPassword));
-        admin.setActive(true);
-        if (admin.getRoles() == null) {
-            admin.setRoles(new HashSet<>());
-        } else {
-            admin.getRoles().clear();
-        }
+        UserJpaEntity admin = UserJpaEntity.builder()
+                .username(adminUsername)
+                .email(adminEmail)
+                .passwordHash(passwordEncoder.encode(adminPassword))
+                .active(true)
+                .roles(new HashSet<>())
+                .build();
         admin.getRoles().add(adminRole);
 
         userJpaRepository.save(admin);

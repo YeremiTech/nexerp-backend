@@ -76,4 +76,18 @@ public class WarehouseController {
     public ResponseEntity<WarehouseResponse> setActive(@PathVariable Long id, @RequestParam boolean active) {
         return ResponseEntity.ok(updateWarehouseUseCase.execute(id, new UpdateWarehouseRequest(null, active)));
     }
+
+    @PatchMapping("/{id}/activar")
+    @PreAuthorize("hasAuthority('INVENTORY_WRITE')")
+    @Operation(summary = "Activar almacen")
+    public ResponseEntity<WarehouseResponse> activate(@PathVariable Long id) {
+        return ResponseEntity.ok(updateWarehouseUseCase.execute(id, new UpdateWarehouseRequest(null, true)));
+    }
+
+    @PatchMapping("/{id}/inactivar")
+    @PreAuthorize("hasAuthority('INVENTORY_WRITE')")
+    @Operation(summary = "Inactivar almacen")
+    public ResponseEntity<WarehouseResponse> deactivate(@PathVariable Long id) {
+        return ResponseEntity.ok(updateWarehouseUseCase.execute(id, new UpdateWarehouseRequest(null, false)));
+    }
 }

@@ -8,7 +8,10 @@ public final class PageableSupport {
 
     public static final int DEFAULT_PAGE_SIZE = 20;
     public static final String CREATED_AT = "createdAt";
-    public static final Sort NEWEST_FIRST = Sort.by(Sort.Direction.DESC, CREATED_AT);
+    public static final String ID = "id";
+    public static final Sort NEWEST_FIRST = Sort
+            .by(Sort.Direction.DESC, CREATED_AT)
+            .and(Sort.by(Sort.Direction.ASC, ID));
 
     private PageableSupport() {
     }

@@ -65,4 +65,18 @@ public class SupplierController {
     public ResponseEntity<SupplierResponse> setActive(@PathVariable Long id, @RequestParam boolean active) {
         return ResponseEntity.ok(updateSupplierUseCase.execute(id, new UpdateSupplierRequest(null, null, null, null, active)));
     }
+
+    @PatchMapping("/{id}/activar")
+    @PreAuthorize("hasAuthority('SUPPLIER_WRITE')")
+    @Operation(summary = "Activar proveedor")
+    public ResponseEntity<SupplierResponse> activate(@PathVariable Long id) {
+        return ResponseEntity.ok(updateSupplierUseCase.execute(id, new UpdateSupplierRequest(null, null, null, null, true)));
+    }
+
+    @PatchMapping("/{id}/inactivar")
+    @PreAuthorize("hasAuthority('SUPPLIER_WRITE')")
+    @Operation(summary = "Inactivar proveedor")
+    public ResponseEntity<SupplierResponse> deactivate(@PathVariable Long id) {
+        return ResponseEntity.ok(updateSupplierUseCase.execute(id, new UpdateSupplierRequest(null, null, null, null, false)));
+    }
 }

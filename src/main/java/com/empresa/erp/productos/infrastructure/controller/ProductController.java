@@ -74,4 +74,18 @@ public class ProductController {
     public ResponseEntity<ProductResponse> setActive(@PathVariable Long id, @RequestParam boolean active) {
         return ResponseEntity.ok(updateProductUseCase.execute(id, new UpdateProductRequest(null, null, null, null, active, null, null, null)));
     }
+
+    @PatchMapping("/{id}/activar")
+    @PreAuthorize("hasAuthority('PRODUCT_WRITE')")
+    @Operation(summary = "Activar producto")
+    public ResponseEntity<ProductResponse> activate(@PathVariable Long id) {
+        return ResponseEntity.ok(updateProductUseCase.execute(id, new UpdateProductRequest(null, null, null, null, true, null, null, null)));
+    }
+
+    @PatchMapping("/{id}/inactivar")
+    @PreAuthorize("hasAuthority('PRODUCT_WRITE')")
+    @Operation(summary = "Inactivar producto")
+    public ResponseEntity<ProductResponse> deactivate(@PathVariable Long id) {
+        return ResponseEntity.ok(updateProductUseCase.execute(id, new UpdateProductRequest(null, null, null, null, false, null, null, null)));
+    }
 }

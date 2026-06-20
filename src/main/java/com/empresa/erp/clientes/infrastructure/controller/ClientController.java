@@ -72,4 +72,18 @@ public class ClientController {
     public ResponseEntity<ClientResponse> setActive(@PathVariable Long id, @RequestParam boolean active) {
         return ResponseEntity.ok(updateClientUseCase.execute(id, new UpdateClientRequest(null, null, null, null, null, active)));
     }
+
+    @PatchMapping("/{id}/activar")
+    @PreAuthorize("hasAuthority('CLIENT_WRITE')")
+    @Operation(summary = "Activar cliente")
+    public ResponseEntity<ClientResponse> activate(@PathVariable Long id) {
+        return ResponseEntity.ok(updateClientUseCase.execute(id, new UpdateClientRequest(null, null, null, null, null, true)));
+    }
+
+    @PatchMapping("/{id}/inactivar")
+    @PreAuthorize("hasAuthority('CLIENT_WRITE')")
+    @Operation(summary = "Inactivar cliente")
+    public ResponseEntity<ClientResponse> deactivate(@PathVariable Long id) {
+        return ResponseEntity.ok(updateClientUseCase.execute(id, new UpdateClientRequest(null, null, null, null, null, false)));
+    }
 }

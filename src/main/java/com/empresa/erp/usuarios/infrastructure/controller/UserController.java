@@ -65,4 +65,18 @@ public class UserController {
     public ResponseEntity<UserResponse> setActive(@PathVariable Long id, @RequestParam boolean active) {
         return ResponseEntity.ok(activateUserUseCase.execute(id, active));
     }
+
+    @PatchMapping("/{id}/activar")
+    @PreAuthorize("hasAuthority('USER_WRITE')")
+    @Operation(summary = "Activar usuario")
+    public ResponseEntity<UserResponse> activate(@PathVariable Long id) {
+        return ResponseEntity.ok(activateUserUseCase.execute(id, true));
+    }
+
+    @PatchMapping("/{id}/inactivar")
+    @PreAuthorize("hasAuthority('USER_WRITE')")
+    @Operation(summary = "Inactivar usuario")
+    public ResponseEntity<UserResponse> deactivate(@PathVariable Long id) {
+        return ResponseEntity.ok(activateUserUseCase.execute(id, false));
+    }
 }
