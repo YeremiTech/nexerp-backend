@@ -69,4 +69,11 @@ public class WarehouseController {
                                                     @Valid @RequestBody UpdateWarehouseRequest request) {
         return ResponseEntity.ok(updateWarehouseUseCase.execute(id, request));
     }
+
+    @PatchMapping("/{id}/active")
+    @PreAuthorize("hasAuthority('INVENTORY_WRITE')")
+    @Operation(summary = "Actualizar estado del almacen")
+    public ResponseEntity<WarehouseResponse> setActive(@PathVariable Long id, @RequestParam boolean active) {
+        return ResponseEntity.ok(updateWarehouseUseCase.execute(id, new UpdateWarehouseRequest(null, active)));
+    }
 }

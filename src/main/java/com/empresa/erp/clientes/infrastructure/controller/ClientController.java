@@ -65,4 +65,11 @@ public class ClientController {
                                                  @Valid @RequestBody UpdateClientRequest request) {
         return ResponseEntity.ok(updateClientUseCase.execute(id, request));
     }
+
+    @PatchMapping("/{id}/active")
+    @PreAuthorize("hasAuthority('CLIENT_WRITE')")
+    @Operation(summary = "Actualizar estado del cliente")
+    public ResponseEntity<ClientResponse> setActive(@PathVariable Long id, @RequestParam boolean active) {
+        return ResponseEntity.ok(updateClientUseCase.execute(id, new UpdateClientRequest(null, null, null, null, null, active)));
+    }
 }

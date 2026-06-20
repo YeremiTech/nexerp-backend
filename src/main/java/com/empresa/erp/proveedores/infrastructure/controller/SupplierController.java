@@ -58,4 +58,11 @@ public class SupplierController {
                                                    @Valid @RequestBody UpdateSupplierRequest request) {
         return ResponseEntity.ok(updateSupplierUseCase.execute(id, request));
     }
+
+    @PatchMapping("/{id}/active")
+    @PreAuthorize("hasAuthority('SUPPLIER_WRITE')")
+    @Operation(summary = "Actualizar estado del proveedor")
+    public ResponseEntity<SupplierResponse> setActive(@PathVariable Long id, @RequestParam boolean active) {
+        return ResponseEntity.ok(updateSupplierUseCase.execute(id, new UpdateSupplierRequest(null, null, null, null, active)));
+    }
 }

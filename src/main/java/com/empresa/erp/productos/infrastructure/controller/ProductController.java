@@ -67,4 +67,11 @@ public class ProductController {
                                                   @Valid @RequestBody UpdateProductRequest request) {
         return ResponseEntity.ok(updateProductUseCase.execute(id, request));
     }
+
+    @PatchMapping("/{id}/active")
+    @PreAuthorize("hasAuthority('PRODUCT_WRITE')")
+    @Operation(summary = "Actualizar estado del producto")
+    public ResponseEntity<ProductResponse> setActive(@PathVariable Long id, @RequestParam boolean active) {
+        return ResponseEntity.ok(updateProductUseCase.execute(id, new UpdateProductRequest(null, null, null, null, active, null, null, null)));
+    }
 }

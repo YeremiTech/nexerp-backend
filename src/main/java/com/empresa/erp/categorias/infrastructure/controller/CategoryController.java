@@ -56,4 +56,11 @@ public class CategoryController {
                                                    @Valid @RequestBody UpdateCategoryRequest request) {
         return ResponseEntity.ok(updateCategoryUseCase.execute(id, request));
     }
+
+    @PatchMapping("/{id}/active")
+    @PreAuthorize("hasAuthority('CATEGORY_WRITE')")
+    @Operation(summary = "Actualizar estado de la categoría")
+    public ResponseEntity<CategoryResponse> setActive(@PathVariable Long id, @RequestParam boolean active) {
+        return ResponseEntity.ok(updateCategoryUseCase.execute(id, new UpdateCategoryRequest(null, null, active)));
+    }
 }

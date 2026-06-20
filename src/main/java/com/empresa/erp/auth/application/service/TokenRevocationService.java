@@ -1,6 +1,7 @@
 package com.empresa.erp.auth.application.service;
 
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +18,11 @@ public class TokenRevocationService {
     private final StringRedisTemplate redisTemplate;
     private final Map<String, Instant> inMemoryRevokedTokens = new ConcurrentHashMap<>();
 
-    public TokenRevocationService(ObjectProvider<StringRedisTemplate> redisTemplateProvider) {
-        this.redisTemplate = redisTemplateProvider.getIfAvailable();
+    public TokenRevocationService(ObjectProvider<StringRedisTemplate> redisTemplateProvider,
+                                  @Value("${spring.cache.type:simple}") String cacheType) {
+        this.redisTemplate = "redis".equalsIgnoreCase(cacheType)
+                ? redisTemplateProvider.getIfAvailable()
+                : null;
     }
 
     public void revoke(String tokenId, Instant expiresAt) {

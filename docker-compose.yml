@@ -52,13 +52,25 @@ services:
       SPRING_CACHE_TYPE: redis
       REDIS_HOST: redis
       REDIS_PORT: 6379
-      JWT_SECRET: ${JWT_SECRET}
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
       JWT_ACCESS_EXPIRATION: ${JWT_ACCESS_EXPIRATION:-900000}
       JWT_REFRESH_EXPIRATION: ${JWT_REFRESH_EXPIRATION:-604800000}
       APP_CORS_ALLOWED_ORIGINS: ${APP_CORS_ALLOWED_ORIGINS:-http://localhost:4300}
       APP_SWAGGER_ENABLED: ${APP_SWAGGER_ENABLED:-true}
     ports:
       - "${BACKEND_PORT:-8081}:8081"
+    networks:
+      - erp_network
+
+  frontend:
+    build:
+      context: ../../Frontend_Git/erp-pymes-frontend
+      dockerfile: Dockerfile
+    container_name: erp-pymes-frontend
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_PORT:-4300}:80"
     networks:
       - erp_network
 
