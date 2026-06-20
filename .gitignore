@@ -1,0 +1,23 @@
+# Maven
+target/
+
+# Entorno local / secretos
+.env
+.env.*
+!.env.example
+
+# Archivos temporales locales
+tmp/
+
+# IDE
+.idea/
+.factorypath
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+
+# Sistema
+.DS_Store
+Thumbs.db
