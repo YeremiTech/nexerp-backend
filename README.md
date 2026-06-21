@@ -1,6 +1,8 @@
-# ERP PYMES Backend
+# NexERP Backend
 
-Backend de un ERP para pequenas y medianas empresas construido con Java 21 y Spring Boot 3. El proyecto implementa autenticacion JWT, control de roles y permisos, clientes, proveedores, catalogo de productos, categorias, inventario, compras, ventas, dashboard y reportes.
+Backend de un ERP para pequenas y medianas empresas construido con Java 21 y Spring Boot 3. El proyecto implementa autenticacion JWT, control de roles y permisos, clientes, proveedores, catalogo de productos, categorias, almacenes, inventario, compras, ventas, dashboard y reportes.
+
+> Proyecto de portfolio orientado a demostrar desarrollo backend profesional con monolito modular, seguridad stateless, persistencia con migraciones, cache Redis, Docker y reglas de negocio para operaciones ERP.
 
 ## Caracteristicas Tecnicas
 
@@ -13,6 +15,7 @@ El backend incluye componentes de infraestructura y reglas de negocio para opera
 - Docker multi-stage y docker-compose para entorno local reproducible.
 - Pruebas unitarias enfocadas en reglas criticas de negocio.
 - Control de concurrencia para inventario mediante locking y versionado.
+- Documentacion OpenAPI/Swagger habilitable por entorno.
 
 ## Stack
 
@@ -113,6 +116,7 @@ Servicios incluidos:
 - `backend`: API Spring Boot en `http://localhost:8081`
 - `postgres`: base PostgreSQL con volumen persistente.
 - `redis`: cache para dashboard/catalogos y revocacion de access tokens.
+- `frontend`: aplicacion Angular cuando se ejecuta desde `docker-compose`.
 
 ## Ejecucion Local Sin Docker
 
@@ -126,10 +130,10 @@ Requisitos:
 Variables minimas:
 
 ```bash
-JWT_SECRET=your-real-secret-with-at-least-32-bytes
+JWT_SECRET=replace-with-a-random-secret-of-at-least-32-bytes
 SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/erp_pymes
 SPRING_DATASOURCE_USERNAME=postgres
-SPRING_DATASOURCE_PASSWORD=postgres123
+SPRING_DATASOURCE_PASSWORD=replace-with-local-password
 SPRING_CACHE_TYPE=simple
 ```
 
@@ -191,6 +195,26 @@ Swagger puede habilitarse con:
 APP_SWAGGER_ENABLED=true
 ```
 
+URL Swagger local:
+
+```text
+http://localhost:8081/swagger-ui.html
+```
+
+## Integracion Frontend
+
+Este backend esta pensado para trabajar con:
+
+```text
+https://github.com/YeremiTech/nexerp-frontend
+```
+
+En Docker Compose, el frontend se expone normalmente en:
+
+```text
+http://localhost:4300
+```
+
 ## Variables De Entorno
 
 | Variable | Descripcion |
@@ -226,3 +250,8 @@ APP_SWAGGER_ENABLED=true
 - Separar pruebas unitarias e integracion con Maven Failsafe.
 - Ampliar cobertura de compras, dashboard y reportes.
 - Agregar auditoria de usuario en movimientos de inventario.
+- Agregar capturas o diagrama simple del flujo ventas/inventario.
+
+## Licencia
+
+MIT.
