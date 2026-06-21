@@ -3,8 +3,14 @@ name: CI
 on:
   push:
     branches: [main, develop]
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
   pull_request:
     branches: [main, develop]
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
 
 concurrency:
   group: backend-ci-${{ github.workflow }}-${{ github.ref }}
