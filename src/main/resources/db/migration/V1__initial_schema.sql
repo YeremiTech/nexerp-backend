@@ -245,6 +245,7 @@ CREATE TABLE erp.sales_orders (
     id BIGSERIAL PRIMARY KEY,
     client_id BIGINT NOT NULL,
     user_id BIGINT NOT NULL,
+    warehouse_id BIGINT NOT NULL,
     status VARCHAR(20) NOT NULL,
     total NUMERIC(15, 2) NOT NULL,
     created_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -252,7 +253,8 @@ CREATE TABLE erp.sales_orders (
     created_by VARCHAR(100),
     updated_by VARCHAR(100),
     CONSTRAINT fk_sales_orders_client FOREIGN KEY (client_id) REFERENCES erp.clients (id),
-    CONSTRAINT fk_sales_orders_user FOREIGN KEY (user_id) REFERENCES erp.users (id)
+    CONSTRAINT fk_sales_orders_user FOREIGN KEY (user_id) REFERENCES erp.users (id),
+    CONSTRAINT fk_sales_orders_warehouse FOREIGN KEY (warehouse_id) REFERENCES erp.warehouses (id)
 );
 
 CREATE TABLE erp.sales_order_lines (
