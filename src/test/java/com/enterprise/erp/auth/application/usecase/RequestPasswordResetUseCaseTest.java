@@ -2,14 +2,15 @@ package com.enterprise.erp.auth.application.usecase;
 
 import com.enterprise.erp.auth.application.dto.PasswordResetRequestDto;
 import com.enterprise.erp.auth.application.dto.PasswordResetResponseDto;
+import com.enterprise.erp.auth.infrastructure.mail.EmailService;
 import com.enterprise.erp.auth.infrastructure.persistence.PasswordResetTokenJpaEntity;
 import com.enterprise.erp.auth.infrastructure.persistence.PasswordResetTokenJpaRepository;
 import com.enterprise.erp.users.infrastructure.persistence.UserJpaEntity;
 import com.enterprise.erp.users.infrastructure.persistence.UserJpaRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -30,8 +31,17 @@ class RequestPasswordResetUseCaseTest {
     @Mock
     private PasswordResetTokenJpaRepository passwordResetTokenJpaRepository;
 
-    @InjectMocks
     private RequestPasswordResetUseCase useCase;
+
+    @BeforeEach
+    void setUp() {
+        EmailService emailService = new EmailService(null) {
+            @Override
+            public void sendPasswordResetCode(String to, String code) {
+            }
+        };
+        useCase = new RequestPasswordResetUseCase(userJpaRepository, passwordResetTokenJpaRepository, emailService);
+    }
 
     @Test
     void execute_shouldReturnGenericMessageWhenEmailNotFound() {
